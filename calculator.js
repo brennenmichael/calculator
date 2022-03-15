@@ -9,6 +9,12 @@ document.addEventListener("click", (e) => {
   }
 });
 
+document.addEventListener("keydown", (e) => {
+  if (!isNaN(e.key)) {
+    currentNumber.textContent += e.key;
+  }
+});
+
 //All Clear
 document.addEventListener("click", (e) => {
   elem = e.target;
@@ -30,6 +36,12 @@ document.addEventListener("click", (e) => {
 document.addEventListener("click", (e) => {
   elem = e.target;
   if (elem.textContent === "DEL") {
+    currentNumber.textContent = currentNumber.textContent.slice(0, -1);
+  }
+});
+
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Backspace") {
     currentNumber.textContent = currentNumber.textContent.slice(0, -1);
   }
 });
