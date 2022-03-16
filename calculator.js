@@ -63,6 +63,17 @@ function add(num1, num2) {
   currentNumber.textContent = "";
 }
 
+function addCheck() {
+  document.addEventListener("click", (e) => {
+    elem = captureElem(e);
+  });
+  document.addEventListener("keydown", (e) => {
+    elem = captureElem(e);
+  });
+  console.log("addcheck is ", elem);
+  return elem === "=" && operationToPerform === "+";
+}
+
 function subtract(num1, num2) {
   num1 = Number(num1);
   num2 = Number(num2);
@@ -84,42 +95,58 @@ function divide(num1, num2) {
   currentNumber.textContent = "";
 }
 
+//operations proper (click and mousedown)
 document.addEventListener("click", (e) => {
-  elem = e.target.textContent;
+  performOperations(e);
+});
+
+document.addEventListener("keydown", (e) => {
+  performOperations(e);
+});
+
+//this allows for both click and keyboard functionality
+function captureElem(e) {
+  elem = e.key;
+  if (!elem) elem = e.target.textContent;
+  console.log("here it is ", elem);
+  return elem;
+}
+
+//once you press equals...
+document.addEventListener("click", (e) => {
+  if (e.target.textContent === "=") evaluateExpression();
+});
+
+document.addEventListener("keydown", (e) => {
+  if (e.key === "=") evaluateExpression();
+});
+
+function evaluateExpression() {
+  if (operationToPerform === "+")
+    add(lastNumber.textContent, currentNumber.textContent);
+  else if (operationToPerform === "-")
+    subtract(lastNumber.textContent, currentNumber.textContent);
+  else if (operationToPerform === "x")
+    multiply(lastNumber.textContent, currentNumber.textContent);
+  else if (operationToPerform === "/")
+    divide(lastNumber.textContent, currentNumber.textContent);
+}
+
+//actual operations
+
+function performOperations(e) {
+  elem = captureElem(e);
   if (elem === "+") {
     updateDisplay();
     operationToPerform = "+"; //acts as a failsafe and allows user to "change their mind on operation"
-    document.addEventListener("click", (e) => {
-      if (e.target.textContent === "=" && operationToPerform === "+")
-        add(lastNumber.textContent, currentNumber.textContent);
-    });
   } else if (elem === "-") {
     updateDisplay();
     operationToPerform = "-";
-    document.addEventListener("click", (e) => {
-      if (e.target.textContent === "=" && operationToPerform === "-") {
-        subtract(lastNumber.textContent, currentNumber.textContent);
-      }
-    });
   } else if (elem === "x") {
     updateDisplay();
     operationToPerform = "x";
-    document.addEventListener("click", (e) => {
-      if (e.target.textContent === "=" && operationToPerform === "x") {
-        multiply(lastNumber.textContent, currentNumber.textContent);
-      }
-    });
   } else if (elem === "/") {
     updateDisplay();
     operationToPerform = "/";
-    document.addEventListener("click", (e) => {
-      if (e.target.textContent === "=" && operationToPerform === "/") {
-        divide(lastNumber.textContent, currentNumber.textContent);
-      }
-    });
   }
-});
-
-document.addEventListener("click", () => {
-  console.log(lastNumber.textContent, currentNumber.textContent);
-});
+}
