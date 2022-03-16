@@ -6,7 +6,9 @@ let operationToPerform = "";
 //adding numbers to currentNumber
 document.addEventListener("click", (e) => {
   let elem = e.target;
+  if (elem.textContent === "0" && zeroCheck(currentNumber)) return;
   if (!isNaN(elem.textContent)) {
+    if (zeroCheck(currentNumber)) currentNumber.textContent = "";
     currentNumber.textContent += elem.textContent;
   }
 });
@@ -16,6 +18,11 @@ document.addEventListener("keydown", (e) => {
     currentNumber.textContent += e.key;
   }
 });
+
+function zeroCheck(element) {
+  if (element.textContent.charAt(0) === "0" && element.textContent.length >= 1)
+    return true;
+}
 
 //All Clear
 document.addEventListener("click", (e) => {
@@ -74,7 +81,6 @@ function subtract(first, second) {
 function multiply(first, second) {
   let num1 = Number(first);
   let num2 = Number(second);
-  console.log(num1, num2);
   lastNumber.textContent = num1 * num2;
   currentNumber.textContent = "";
 }
@@ -156,3 +162,5 @@ function dontDivideByZero() {
     currentNumber.textContent = "";
   }, 1500);
 }
+
+//decimal support
