@@ -63,17 +63,6 @@ function add(num1, num2) {
   currentNumber.textContent = "";
 }
 
-function addCheck() {
-  document.addEventListener("click", (e) => {
-    elem = captureElem(e);
-  });
-  document.addEventListener("keydown", (e) => {
-    elem = captureElem(e);
-  });
-  console.log("addcheck is ", elem);
-  return elem === "=" && operationToPerform === "+";
-}
-
 function subtract(num1, num2) {
   num1 = Number(num1);
   num2 = Number(num2);
@@ -108,7 +97,6 @@ document.addEventListener("keydown", (e) => {
 function captureElem(e) {
   elem = e.key;
   if (!elem) elem = e.target.textContent;
-  console.log("here it is ", elem);
   return elem;
 }
 
