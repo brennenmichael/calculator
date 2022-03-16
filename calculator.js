@@ -7,6 +7,7 @@ let operationToPerform = "";
 document.addEventListener("click", (e) => {
   let elem = e.target;
   if (elem.textContent === ".") addDecimal(currentNumber);
+  if (elem.textContent === "(-)") toggleNegative(currentNumber);
   if (elem.textContent === "0" && zeroCheck(currentNumber)) return;
   if (!isNaN(elem.textContent)) {
     if (zeroCheck(currentNumber)) currentNumber.textContent = "";
@@ -39,6 +40,18 @@ function addDecimal(element) {
   else if (element.textContent === "0" || element.textContent === "")
     element.textContent = "0.";
   else element.textContent += ".";
+}
+
+//negative numbers
+function isNegative(element) {
+  console.log(element.textContent.includes("-"));
+  return element.textContent.includes("-");
+}
+
+function toggleNegative(element) {
+  if (!isNegative(currentNumber))
+    element.textContent = "-" + element.textContent;
+  else element.textContent = element.textContent.slice(1);
 }
 
 //All Clear
