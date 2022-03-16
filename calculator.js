@@ -106,7 +106,7 @@ document.addEventListener("click", (e) => {
 });
 
 document.addEventListener("keydown", (e) => {
-  if (e.key === "=") evaluateExpression();
+  if (e.key === "=" || e.key === "Enter") evaluateExpression();
 });
 
 function evaluateExpression() {
