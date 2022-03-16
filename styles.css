@@ -37,6 +37,14 @@ body {
   font-size: 1.8rem;
 }
 
+.calculator > button:not(.number) {
+  background-color: rgba(107, 72, 146, 0.75);
+}
+
+.calculator > button:not(.number):hover {
+  background-color: rgba(107, 72, 146, 0.95);
+}
+
 .display {
   grid-column: 1/-1;
   background-color: rgba(0, 0, 0, 0.75);

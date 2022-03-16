@@ -14,15 +14,20 @@ document.addEventListener("click", (e) => {
 });
 
 document.addEventListener("keydown", (e) => {
+  if (e.key === "0" && zeroCheck(currentNumber)) return;
   if (!isNaN(e.key)) {
+    if (zeroCheck(currentNumber)) currentNumber.textContent = "";
     currentNumber.textContent += e.key;
   }
 });
 
+//make sure there isn't more than one zero at the beginning of current number
 function zeroCheck(element) {
   if (element.textContent.charAt(0) === "0" && element.textContent.length >= 1)
     return true;
 }
+
+//decimal support
 
 //All Clear
 document.addEventListener("click", (e) => {
@@ -162,5 +167,3 @@ function dontDivideByZero() {
     currentNumber.textContent = "";
   }, 1500);
 }
-
-//decimal support
