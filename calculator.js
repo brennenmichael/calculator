@@ -1,5 +1,5 @@
-currentNumber = document.querySelector(".current-number");
-lastNumber = document.querySelector(".last-number");
+const currentNumber = document.querySelector(".current-number");
+const lastNumber = document.querySelector(".last-number");
 operators = ["+", "-", "x", "/", "="];
 
 //adding numbers to currentNumber
@@ -55,31 +55,31 @@ function updateDisplay() {
   }
 }
 
-//base functions
-function add(num1, num2) {
-  num1 = Number(num1);
-  num2 = Number(num2);
+//base math functions
+function add(first, second) {
+  let num1 = Number(first);
+  let num2 = Number(second);
   lastNumber.textContent = num1 + num2;
   currentNumber.textContent = "";
 }
 
-function subtract(num1, num2) {
-  num1 = Number(num1);
-  num2 = Number(num2);
+function subtract(first, second) {
+  let num1 = Number(first);
+  let num2 = Number(second);
   lastNumber.textContent = num1 - num2;
   currentNumber.textContent = "";
 }
 
-function multiply(num1, num2) {
-  num1 = Number(num1);
-  num2 = Number(num2);
+function multiply(first, second) {
+  let num1 = Number(first);
+  let num2 = Number(second);
   lastNumber.textContent = num1 * num2;
   currentNumber.textContent = "";
 }
 
-function divide(num1, num2) {
-  num1 = Number(num1);
-  num2 = Number(num2);
+function divide(first, second) {
+  let num1 = Number(first);
+  let num2 = Number(second);
   lastNumber.textContent = num1 / num2;
   currentNumber.textContent = "";
 }
@@ -116,8 +116,10 @@ function evaluateExpression() {
     subtract(lastNumber.textContent, currentNumber.textContent);
   else if (operationToPerform === "x")
     multiply(lastNumber.textContent, currentNumber.textContent);
-  else if (operationToPerform === "/")
-    divide(lastNumber.textContent, currentNumber.textContent);
+  else if (operationToPerform === "/") {
+    if (currentNumber.textContent === "0") dontDivideByZero();
+    else divide(lastNumber.textContent, currentNumber.textContent);
+  }
 }
 
 //actual operations
@@ -130,11 +132,21 @@ function performOperations(e) {
   } else if (elem === "-") {
     updateDisplay();
     operationToPerform = "-";
-  } else if (elem === "x") {
+  } else if (elem === "x" || elem === "*") {
     updateDisplay();
     operationToPerform = "x";
   } else if (elem === "/") {
     updateDisplay();
     operationToPerform = "/";
   }
+}
+
+//divide by zero check
+function dontDivideByZero() {
+  let temp = lastNumber.textContent;
+  lastNumber.textContent = "Please don't :(";
+  setTimeout(() => {
+    lastNumber.textContent = temp;
+    currentNumber.textContent = "";
+  }, 1500);
 }
