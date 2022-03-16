@@ -26,7 +26,7 @@ document.addEventListener("keydown", (e) => {
 
 //make sure there isn't more than one zero at the beginning of current number
 function zeroCheck(element) {
-  if (element.textContent.charAt(0) === "0" && element.textContent.length >= 1)
+  if (element.textContent === "0" && element.textContent.length >= 1)
     return true;
 }
 
@@ -39,12 +39,12 @@ function addDecimal(element) {
   if (decimalCheck(currentNumber)) return;
   else if (element.textContent === "0" || element.textContent === "")
     element.textContent = "0.";
+  else if (element.textContent === "-") element.textContent = "-0.";
   else element.textContent += ".";
 }
 
 //negative numbers
 function isNegative(element) {
-  console.log(element.textContent.includes("-"));
   return element.textContent.includes("-");
 }
 
@@ -60,6 +60,7 @@ document.addEventListener("click", (e) => {
   if (elem.textContent === "AC") {
     currentNumber.textContent = "";
     lastNumber.textContent = "";
+    operationToPerform = "";
   }
 });
 
@@ -147,7 +148,7 @@ document.addEventListener("click", (e) => {
 });
 
 document.addEventListener("keydown", (e) => {
-  if (e.key === "=" || e.key === "Enter") {
+  if (e.key === "=") {
     evaluateExpression();
     operationToPerform = "";
   }
@@ -173,7 +174,6 @@ function evaluateExpression() {
 
 function tooManyDecimalsCheck() {
   if ((lastNumber.textContent * 10000) % 1 !== 0) {
-    console.log("true");
     lastNumber.textContent = parseFloat(
       Number(lastNumber.textContent).toFixed(4)
     );
@@ -208,3 +208,9 @@ function dontDivideByZero() {
     currentNumber.textContent = "";
   }, 1500);
 }
+
+//because enter causes too many problems, apparently
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") console.log("");
+  return;
+});
