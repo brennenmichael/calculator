@@ -6,6 +6,7 @@ let operationToPerform = "";
 //adding numbers to currentNumber
 document.addEventListener("click", (e) => {
   let elem = e.target;
+  if (elem.textContent === ".") addDecimal(currentNumber);
   if (elem.textContent === "0" && zeroCheck(currentNumber)) return;
   if (!isNaN(elem.textContent)) {
     if (zeroCheck(currentNumber)) currentNumber.textContent = "";
@@ -14,6 +15,7 @@ document.addEventListener("click", (e) => {
 });
 
 document.addEventListener("keydown", (e) => {
+  if (e.key === ".") addDecimal(currentNumber);
   if (e.key === "0" && zeroCheck(currentNumber)) return;
   if (!isNaN(e.key)) {
     if (zeroCheck(currentNumber)) currentNumber.textContent = "";
@@ -28,6 +30,16 @@ function zeroCheck(element) {
 }
 
 //decimal support
+function decimalCheck(element) {
+  if (element.textContent.includes(".")) return true;
+}
+
+function addDecimal(element) {
+  if (decimalCheck(currentNumber)) return;
+  else if (element.textContent === "0" || element.textContent === "")
+    element.textContent = "0.";
+  else element.textContent += ".";
+}
 
 //All Clear
 document.addEventListener("click", (e) => {
@@ -63,7 +75,7 @@ document.addEventListener("keydown", (e) => {
 //update display
 function updateDisplay() {
   if (currentNumber.textContent !== "") {
-    lastNumber.textContent = currentNumber.textContent;
+    lastNumber.textContent = parseFloat(currentNumber.textContent);
     currentNumber.textContent = "";
   }
 }
@@ -122,7 +134,10 @@ document.addEventListener("click", (e) => {
 });
 
 document.addEventListener("keydown", (e) => {
-  if (e.key === "=" || e.key === "Enter") evaluateExpression();
+  if (e.key === "=" || e.key === "Enter") {
+    evaluateExpression();
+    operationToPerform = "";
+  }
 });
 
 function evaluateExpression() {
@@ -131,11 +146,24 @@ function evaluateExpression() {
     add(lastNumber.textContent, currentNumber.textContent);
   else if (operationToPerform === "-")
     subtract(lastNumber.textContent, currentNumber.textContent);
-  else if (operationToPerform === "x")
+  else if (operationToPerform === "x") {
     multiply(lastNumber.textContent, currentNumber.textContent);
-  else if (operationToPerform === "/") {
+    tooManyDecimalsCheck();
+  } else if (operationToPerform === "/") {
     if (currentNumber.textContent === "0") dontDivideByZero();
-    else divide(lastNumber.textContent, currentNumber.textContent);
+    else {
+      divide(lastNumber.textContent, currentNumber.textContent);
+      tooManyDecimalsCheck();
+    }
+  }
+}
+
+function tooManyDecimalsCheck() {
+  if ((lastNumber.textContent * 10000) % 1 !== 0) {
+    console.log("true");
+    lastNumber.textContent = parseFloat(
+      Number(lastNumber.textContent).toFixed(4)
+    );
   }
 }
 
