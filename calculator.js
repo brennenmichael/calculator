@@ -1,10 +1,11 @@
 const currentNumber = document.querySelector(".current-number");
 const lastNumber = document.querySelector(".last-number");
-operators = ["+", "-", "x", "/", "="];
+const operators = ["+", "-", "x", "/", "="];
+let operationToPerform = "";
 
 //adding numbers to currentNumber
 document.addEventListener("click", (e) => {
-  elem = e.target;
+  let elem = e.target;
   if (!isNaN(elem.textContent)) {
     currentNumber.textContent += elem.textContent;
   }
@@ -18,7 +19,7 @@ document.addEventListener("keydown", (e) => {
 
 //All Clear
 document.addEventListener("click", (e) => {
-  elem = e.target;
+  let elem = e.target;
   if (elem.textContent === "AC") {
     currentNumber.textContent = "";
     lastNumber.textContent = "";
@@ -27,7 +28,7 @@ document.addEventListener("click", (e) => {
 
 //Clear
 document.addEventListener("click", (e) => {
-  elem = e.target;
+  let elem = e.target;
   if (elem.textContent === "C") {
     currentNumber.textContent = "";
   }
@@ -35,7 +36,7 @@ document.addEventListener("click", (e) => {
 
 //Delete
 document.addEventListener("click", (e) => {
-  elem = e.target;
+  let elem = e.target;
   if (elem.textContent === "DEL") {
     currentNumber.textContent = currentNumber.textContent.slice(0, -1);
   }
@@ -73,6 +74,7 @@ function subtract(first, second) {
 function multiply(first, second) {
   let num1 = Number(first);
   let num2 = Number(second);
+  console.log(num1, num2);
   lastNumber.textContent = num1 * num2;
   currentNumber.textContent = "";
 }
@@ -95,14 +97,17 @@ document.addEventListener("keydown", (e) => {
 
 //this allows for both click and keyboard functionality
 function captureElem(e) {
-  elem = e.key;
+  let elem = e.key;
   if (!elem) elem = e.target.textContent;
   return elem;
 }
 
-//once you press equals...
+//equals cancels out the operation to perform
 document.addEventListener("click", (e) => {
-  if (e.target.textContent === "=") evaluateExpression();
+  if (e.target.textContent === "=") {
+    evaluateExpression();
+    operationToPerform = "";
+  }
 });
 
 document.addEventListener("keydown", (e) => {
@@ -110,6 +115,7 @@ document.addEventListener("keydown", (e) => {
 });
 
 function evaluateExpression() {
+  if (operationToPerform === "") updateDisplay();
   if (operationToPerform === "+")
     add(lastNumber.textContent, currentNumber.textContent);
   else if (operationToPerform === "-")
@@ -125,18 +131,18 @@ function evaluateExpression() {
 //actual operations
 
 function performOperations(e) {
-  elem = captureElem(e);
+  let elem = captureElem(e);
   if (elem === "+") {
-    updateDisplay();
+    evaluateExpression();
     operationToPerform = "+"; //acts as a failsafe and allows user to "change their mind on operation"
   } else if (elem === "-") {
-    updateDisplay();
+    evaluateExpression();
     operationToPerform = "-";
   } else if (elem === "x" || elem === "*") {
-    updateDisplay();
+    evaluateExpression();
     operationToPerform = "x";
   } else if (elem === "/") {
-    updateDisplay();
+    evaluateExpression();
     operationToPerform = "/";
   }
 }
