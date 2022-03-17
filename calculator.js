@@ -165,21 +165,20 @@ function evaluateExpression() {
       subtract(lastNumber.textContent, currentNumber.textContent);
     else if (operationToPerform === "x") {
       multiply(lastNumber.textContent, currentNumber.textContent);
-      tooManyDecimalsCheck();
     } else if (operationToPerform === "/") {
       if (parseFloat(currentNumber.textContent) === 0) dontDivideByZero();
       else {
         divide(lastNumber.textContent, currentNumber.textContent);
-        tooManyDecimalsCheck();
       }
     }
+    tooManyDecimalsCheck();
   }
 }
 
 function tooManyDecimalsCheck() {
-  if ((lastNumber.textContent * 10000) % 1 !== 0) {
+  if ((lastNumber.textContent * 1000000) % 1 !== 0) {
     lastNumber.textContent = parseFloat(
-      Number(lastNumber.textContent).toFixed(5)
+      Number(lastNumber.textContent).toFixed(4)
     );
   }
 }
