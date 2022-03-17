@@ -70,6 +70,7 @@ document.addEventListener("click", (e) => {
   let elem = e.target;
   if (elem.textContent === "C") {
     currentNumber.textContent = "";
+    operationToPerform = "";
   }
 });
 
