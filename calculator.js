@@ -156,19 +156,22 @@ document.addEventListener("keydown", (e) => {
 });
 
 function evaluateExpression() {
-  if (operationToPerform === "") updateDisplay();
-  if (operationToPerform === "+")
-    add(lastNumber.textContent, currentNumber.textContent);
-  else if (operationToPerform === "-")
-    subtract(lastNumber.textContent, currentNumber.textContent);
-  else if (operationToPerform === "x") {
-    multiply(lastNumber.textContent, currentNumber.textContent);
-    tooManyDecimalsCheck();
-  } else if (operationToPerform === "/") {
-    if (parseFloat(currentNumber.textContent) === 0) dontDivideByZero();
-    else {
-      divide(lastNumber.textContent, currentNumber.textContent);
+  if (currentNumber.textContent === "") return;
+  else {
+    if (operationToPerform === "") updateDisplay();
+    if (operationToPerform === "+")
+      add(lastNumber.textContent, currentNumber.textContent);
+    else if (operationToPerform === "-")
+      subtract(lastNumber.textContent, currentNumber.textContent);
+    else if (operationToPerform === "x") {
+      multiply(lastNumber.textContent, currentNumber.textContent);
       tooManyDecimalsCheck();
+    } else if (operationToPerform === "/") {
+      if (parseFloat(currentNumber.textContent) === 0) dontDivideByZero();
+      else {
+        divide(lastNumber.textContent, currentNumber.textContent);
+        tooManyDecimalsCheck();
+      }
     }
   }
 }
@@ -176,7 +179,7 @@ function evaluateExpression() {
 function tooManyDecimalsCheck() {
   if ((lastNumber.textContent * 10000) % 1 !== 0) {
     lastNumber.textContent = parseFloat(
-      Number(lastNumber.textContent).toFixed(4)
+      Number(lastNumber.textContent).toFixed(5)
     );
   }
 }
